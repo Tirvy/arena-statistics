@@ -22,7 +22,7 @@ export const queryByCollection = async (col: string) => {
   const docs = Array.from(snapshot.docs).map((doc) => {
     return {
       ...doc.data(),
-      id: doc.id,
+      firebaseId: doc.id,
     };
   });
 
