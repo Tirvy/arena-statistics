@@ -4,7 +4,7 @@ export class Visit {
         this.start = start;
         this.end = end;
         this.checkType = check_type;
-        this.checkSum = check_sum;
+        this.checkSum = +check_sum || null;
     }
     toString() {
         return this.visiterId;

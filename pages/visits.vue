@@ -1,6 +1,17 @@
 <script setup lang="ts">
+const visiters = ref([]);
 const lastVisits = ref([]);
 const newVisits = ref([]);
+
+async function getVisiters() {
+    try {
+        const result = await $fetch('/api/firestore/get-visiters');
+        visiters.value = result;
+        console.log(visiters.value);
+    } catch (error) {
+        console.log(error.message);
+    }
+}
 
 async function getLastVisits() {
     try {
@@ -30,6 +41,7 @@ async function sendVisits() {
             method: "POST",
             body: newVisits.value,
         });
+        console.log(lastVisits.value[0].start, " send is success");
     } catch (error) {
         console.log(error.message);
     }
@@ -40,25 +52,44 @@ async function sendVisits() {
 <template>
     <div>
         <div>
+            <button @click="getVisiters">
+                get visiters
+            </button>
+
+        </div>
+        <div>
             <button @click="getLastVisits">
                 get last visit
             </button>
 
         </div>
         <div>
-            <p v-for="item in lastVisits">
-                {{ item.firebaseId }} - {{ item.start }}:{{ item.end }}
-            </p>
+            <table>
+                <tr v-for="item in lastVisits">
+                    <td>{{ item.firebaseId }}</td>
+                    <td>{{ item.visiterId }}</td>
+                    <td>{{ item.start }}</td>
+                    <td>{{ item.end }}</td>
+                    <td>{{ item.checkType }}</td>
+                    <td>{{ item.checkSum }}</td>
+                </tr>
+            </table>
             <button @click="getNewVisits">
                 get new visits
             </button>
 
         </div>
         <div>
-
-            <p v-for="item in newVisits">
-                {{ item.firebaseId }} - {{ item.start }}:{{ item.end }}
-            </p>
+            <table>
+                <tr v-for="item in newVisits">
+                    <td>{{ item.firebaseId }}</td>
+                    <td>{{ item.visiterId }}</td>
+                    <td>{{ item.start }}</td>
+                    <td>{{ item.end }}</td>
+                    <td>{{ item.checkType }}</td>
+                    <td>{{ item.checkSum }}</td>
+                </tr>
+            </table>
             <button @click="sendVisits">
                 send these visits
             </button>
