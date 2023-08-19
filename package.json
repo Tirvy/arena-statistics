@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "firebase": "^10.1.0",
+    "sass": "^1.66.1",
     "vuetify": "^3.3.11"
   }
 }

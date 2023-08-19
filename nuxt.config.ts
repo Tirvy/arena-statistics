@@ -8,6 +8,10 @@ export default defineNuxtConfig({
       callback: '/confirm'
     },
   },
+  css: ['vuetify/lib/styles/main.sass'],
+  build: {
+    transpile: ['vuetify'],
+  },
   typescript: {
     typeCheck: true,
   }
