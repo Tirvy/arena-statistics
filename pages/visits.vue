@@ -1,50 +1,33 @@
 <script setup lang="ts">
-const visiters = ref([]);
-const lastVisits = ref([]);
-const newVisits = ref([]);
+const visiters: Ref<Visit[]> = ref([]);
+const lastVisits: Ref<Visit[]> = ref([]);
+const newVisits: Ref<Visit[]> = ref([]);
 
 async function getVisiters() {
-    try {
-        const result = await $fetch('/api/firestore/get-visiters');
-        visiters.value = result;
-        console.log(visiters.value);
-    } catch (error) {
-        console.log(error.message);
-    }
+    const result = await $fetch('/api/firestore/get-visiters');
+    visiters.value = result as Visit[];
 }
 
 async function getLastVisits() {
-    try {
-        const result = await $fetch('/api/supabase/get-last-visits');
-        lastVisits.value = result;
-    } catch (error) {
-        console.log(error.message);
-    }
+    const result = await $fetch('/api/supabase/get-last-visits');
+    lastVisits.value = result;
 }
 
 async function getNewVisits() {
-    try {
-        const result = await $fetch('/api/firestore/get-visits', {
-            query: {
-                start: lastVisits.value[0].start
-            }
-        });
-        newVisits.value = result.filter(item => item.firebaseId != lastVisits.value[0].firebaseId);
-    } catch (error) {
-        console.log(error.message);
-    }
+    const result = await $fetch('/api/firestore/get-visits', {
+        query: {
+            start: lastVisits.value[0].start
+        }
+    });
+    newVisits.value = result.filter(item => item.firebaseId != lastVisits.value[0].firebaseId);
 }
 
 async function sendVisits() {
-    try {
-        const { result } = await $fetch('/api/supabase/add-visits', {
-            method: "POST",
-            body: newVisits.value,
-        });
-        console.log(lastVisits.value[0].start, " send is success");
-    } catch (error) {
-        console.log(error.message);
-    }
+    await $fetch('/api/supabase/add-visits', {
+        method: "POST",
+        body: newVisits.value,
+    });
+    console.log(lastVisits.value[0].start, " send is success");
 }
 </script>
 
@@ -52,15 +35,15 @@ async function sendVisits() {
 <template>
     <div>
         <div>
-            <button @click="getVisiters">
+            <v-btn @click="getVisiters">
                 get visiters
-            </button>
+            </v-btn>
 
         </div>
         <div>
-            <button @click="getLastVisits">
+            <v-btn @click="getLastVisits">
                 get last visit
-            </button>
+            </v-btn>
 
         </div>
         <div>
@@ -74,9 +57,9 @@ async function sendVisits() {
                     <td>{{ item.checkSum }}</td>
                 </tr>
             </table>
-            <button @click="getNewVisits">
+            <v-btn @click="getNewVisits">
                 get new visits
-            </button>
+            </v-btn>
 
         </div>
         <div>
@@ -90,9 +73,9 @@ async function sendVisits() {
                     <td>{{ item.checkSum }}</td>
                 </tr>
             </table>
-            <button @click="sendVisits">
+            <v-btn @click="sendVisits">
                 send these visits
-            </button>
+            </v-btn>
         </div>
     </div>
 </template>

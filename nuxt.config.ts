@@ -7,5 +7,8 @@ export default defineNuxtConfig({
       login: '/',
       callback: '/confirm'
     },
+  },
+  typescript: {
+    typeCheck: true,
   }
 })

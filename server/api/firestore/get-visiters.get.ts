@@ -14,7 +14,10 @@ export default defineEventHandler(async (event) => {
     });
   
     return docs;
-  } catch (error) {
-    return { result: [], error: error.message };
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return { result: [], error: error.message };
+    }
+    console.log(String(error));
   }
 });
