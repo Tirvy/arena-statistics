@@ -1,4 +1,8 @@
 <script setup lang="ts">
+definePageMeta({
+  layout: "login",
+})
+
 const user = useSupabaseUser()
 const { auth } = useSupabaseClient()
 
@@ -16,19 +20,19 @@ async function signInWithGitHub() {
 </script>
 
 <template>
-  <div class="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-    <h2 class="my-6 text-center text-3xl font-extrabold u-text-white">
-      Sign in to your account
-    </h2>
-    <LoginCard>
-      <button
-        class="mt-3"
-        icon="i-mdi-github"
-        block
-        label="Github"
-        variant="black"
-        @click="signInWithGitHub"
-      >login</button>
-    </LoginCard>
-  </div>
+  <v-container fluid class="fill-height">
+    <v-row>
+      <v-col class="d-flex justify-center">
+        <v-card>
+          <v-card-title>
+            Sign in to your account
+          </v-card-title>
+          <v-card-actions>
+
+            <v-btn @click="signInWithGitHub">connect with Github</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>

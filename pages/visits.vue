@@ -33,49 +33,61 @@ async function sendVisits() {
 
 
 <template>
-    <div>
-        <div>
-            <v-btn @click="getVisiters">
-                get visiters
-            </v-btn>
+    <v-row>
+        <v-col cols="12">
 
-        </div>
-        <div>
-            <v-btn @click="getLastVisits">
-                get last visit
-            </v-btn>
-
-        </div>
-        <div>
-            <table>
-                <tr v-for="item in lastVisits">
-                    <td>{{ item.firebaseId }}</td>
-                    <td>{{ item.visiterId }}</td>
-                    <td>{{ item.start }}</td>
-                    <td>{{ item.end }}</td>
-                    <td>{{ item.checkType }}</td>
-                    <td>{{ item.checkSum }}</td>
-                </tr>
-            </table>
-            <v-btn @click="getNewVisits">
-                get new visits
-            </v-btn>
-
-        </div>
-        <div>
-            <table>
-                <tr v-for="item in newVisits">
-                    <td>{{ item.firebaseId }}</td>
-                    <td>{{ item.visiterId }}</td>
-                    <td>{{ item.start }}</td>
-                    <td>{{ item.end }}</td>
-                    <td>{{ item.checkType }}</td>
-                    <td>{{ item.checkSum }}</td>
-                </tr>
-            </table>
-            <v-btn @click="sendVisits">
-                send these visits
-            </v-btn>
-        </div>
-    </div>
+            <v-card>
+                <v-card-actions>
+                    <v-btn @click="getVisiters">
+                        get visiters
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-col>
+        <v-col cols="12">
+            <v-card>
+                <v-card-actions>
+                    <v-btn @click="getLastVisits">
+                        get last visit
+                    </v-btn>
+                </v-card-actions>
+                <v-table>
+                    <tbody>
+                        <tr v-for="item in lastVisits">
+                            <td>{{ item.firebaseId }}</td>
+                            <td>{{ item.visiterId }}</td>
+                            <td>{{ item.start }}</td>
+                            <td>{{ item.end }}</td>
+                            <td>{{ item.checkType }}</td>
+                            <td>{{ item.checkSum }}</td>
+                        </tr>
+                    </tbody>
+                </v-table>
+                <v-divider />
+                <v-card-actions>
+                    <v-btn @click="getNewVisits">
+                        get new visits
+                    </v-btn>
+                </v-card-actions>
+                <v-table>
+                    <tbody>
+                        <tr v-for="item in newVisits">
+                            <td>{{ item.firebaseId }}</td>
+                            <td>{{ item.visiterId }}</td>
+                            <td>{{ item.start }}</td>
+                            <td>{{ item.end }}</td>
+                            <td>{{ item.checkType }}</td>
+                            <td>{{ item.checkSum }}</td>
+                        </tr>
+                    </tbody>
+                </v-table>
+                <v-divider />
+                <v-card-actions>
+                    <v-btn @click="sendVisits">
+                        send these visits
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-col>
+    </v-row>
 </template>

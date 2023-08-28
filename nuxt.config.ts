@@ -5,7 +5,8 @@ export default defineNuxtConfig({
   supabase: {
     redirectOptions: {
       login: '/',
-      callback: '/confirm'
+      callback: '/confirm',
+      exclude: [],
     },
   },
   css: ['vuetify/lib/styles/main.sass'],
