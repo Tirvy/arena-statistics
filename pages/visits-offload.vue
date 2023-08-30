@@ -1,12 +1,8 @@
 <script setup lang="ts">
-const visiters: Ref<Visit[]> = ref([]);
 const lastVisits: Ref<Visit[]> = ref([]);
 const newVisits: Ref<Visit[]> = ref([]);
-
-async function getVisiters() {
-    const result = await $fetch('/api/firestore/get-visiters');
-    visiters.value = result as Visit[];
-}
+const snackbar: Ref<boolean> = ref(false);
+const loading: Ref<boolean> = ref(false);
 
 async function getLastVisits() {
     const result = await $fetch('/api/supabase/get-last-visits');
@@ -14,11 +10,14 @@ async function getLastVisits() {
 }
 
 async function getNewVisits() {
+    loading.value = true;
     const result = await $fetch('/api/firestore/get-visits', {
         query: {
             start: lastVisits.value[0].start
         }
     });
+    loading.value = false;
+    snackbar.value = true;
     newVisits.value = result.filter(item => item.firebaseId != lastVisits.value[0].firebaseId);
 }
 
@@ -34,16 +33,6 @@ async function sendVisits() {
 
 <template>
     <v-row>
-        <v-col cols="12">
-
-            <v-card>
-                <v-card-actions>
-                    <v-btn @click="getVisiters">
-                        get visiters
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-col>
         <v-col cols="12">
             <v-card>
                 <v-card-actions>
@@ -63,9 +52,13 @@ async function sendVisits() {
                         </tr>
                     </tbody>
                 </v-table>
-                <v-divider />
+            </v-card>
+        </v-col>
+        <v-col cols="12">
+            <v-card>
                 <v-card-actions>
-                    <v-btn @click="getNewVisits">
+                    <v-btn @click="getNewVisits"
+        :loading="loading">
                         get new visits
                     </v-btn>
                 </v-card-actions>
@@ -81,7 +74,19 @@ async function sendVisits() {
                         </tr>
                     </tbody>
                 </v-table>
-                <v-divider />
+            </v-card>
+
+            <v-snackbar v-model="snackbar">
+                visits aquired
+                <template v-slot:actions>
+                    <v-btn color="pink" variant="text" @click="snackbar = false">
+                        Close
+                    </v-btn>
+                </template>
+            </v-snackbar>
+        </v-col>
+        <v-col cols="12">
+            <v-card>
                 <v-card-actions>
                     <v-btn @click="sendVisits">
                         send these visits

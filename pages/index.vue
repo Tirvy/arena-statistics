@@ -8,7 +8,7 @@ const { auth } = useSupabaseClient()
 
 watchEffect(() => {
   if (user.value) {
-    navigateTo('/visits')
+    navigateTo('/visits-offload')
   }
 })
 
